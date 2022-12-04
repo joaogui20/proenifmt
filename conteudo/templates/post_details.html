@@ -1,0 +1,28 @@
+{% extends 'base.html' %}{% load embed_video_tags %}
+
+{% block title %}{{ conteudo.titulo }}{% endblock %}
+
+{% block content %}
+<h1>{{ conteudo.titulo }}</h1>
+<small>Categoria: <a href="{% url 'categoria' conteudo.categoria %}">{{ conteudo.categoria }}</a><br/>
+    Postado por: {{ conteudo.autor }} | {{ conteudo.post_data }}</small><br>
+    <hr>
+
+    {% if conteudo.youtube %}
+        <div class="container">
+            {% video conteudo.youtube 'medium' %}
+        </div>
+        <br />
+    {% endif %}
+
+    {% if conteudo.imagem %}
+        <img src="{{ conteudo.imagem.url }}" class="rounded mx-auto d-block" alt="" height="500w">
+    {% endif %}
+
+    <p>{{ conteudo.corpo|safe }}</p>
+
+    {% if conteudo.arquivo %}
+        <a href="{{ conteudo.arquivo.url }}"><button class="btn btn-secondary">Visualizar arquivo</button></a>
+    {% endif %}
+<br/>
+{% endblock %}
