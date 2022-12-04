@@ -49,18 +49,25 @@ class DeletePostView(DeleteView):
 def PostSearchView(request):
     form = PostSearchForm()
     q = ''
+    c = ''
     results = []
     query = Q()
-    
+
     if 'q' in request.GET:
         form = PostSearchForm(request.GET)
         if form.is_valid():
             q = form.cleaned_data['q']
-            
+            c = form.cleaned_data['c']
+
+            if c is not None:
+                query &= Q(categoria=c)
             if q is not None:
                 query &= Q(titulo__contains=q)
-            
+
             results = Conteudo.objects.filter(query)
-    
-    return render(request, 'search.html', {'form': form, 'q': q, 'results': results})
+
+    return render(request, 'search.html',
+                  {'form': form,
+                   'q': q,
+                   'results': results})
     

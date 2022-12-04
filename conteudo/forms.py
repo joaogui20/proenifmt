@@ -23,8 +23,14 @@ class ConteudoForm(forms.ModelForm):
 
 class PostSearchForm(forms.Form):
     q = forms.CharField()
-    
+    c = forms.ModelChoiceField(
+        queryset=Categoria.objects.all().order_by('nome'))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['c'].label = ''
+        self.fields['c'].required = False
+        self.fields['c'].label = 'Categoria'
         self.fields['q'].label = 'Pesquisar por'
-        self.fields['q'].widget.attrs.update({'class': 'form-control'})
+        self.fields['q'].widget.attrs.update(
+            {'class': 'form-control'})
